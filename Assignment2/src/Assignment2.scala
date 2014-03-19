@@ -1,4 +1,6 @@
-object RegExpAnalyzer {
+import logic.RegExpAnalyzer
+
+object Assignment2 {
 
   def main(args: Array[String]): Unit = {
     print("Enter E1: ")
@@ -7,7 +9,9 @@ object RegExpAnalyzer {
     print("Enter E2: ")
     val e2 = readLine()
     
-    if (e1 == e2) {
+    val rea = new RegExpAnalyzer
+    
+    if (rea.compare(e1,e2)) {
       println("yes")
     } else {
       println("no")
