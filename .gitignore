@@ -53,3 +53,7 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+# ANTLRWorks
+__Test__.java
+__Test___input.txt
