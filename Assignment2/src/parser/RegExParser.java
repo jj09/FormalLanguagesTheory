@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:45:30 C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g 2014-03-20 00:55:29
+// $ANTLR 3.3 Nov 30, 2010 12:45:30 C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g 2014-03-20 23:44:39
 
   package parser;
 
@@ -8,10 +8,12 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.antlr.runtime.debug.*;
+import java.io.IOException;
 
 import org.antlr.runtime.tree.*;
 
-public class RegExParser extends Parser {
+public class RegExParser extends DebugParser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "CLOSURE_EXP", "UNION_EXP", "CONCAT_EXP", "LIST", "LIT", "WS", "'('", "')'", "'*'", "'+'"
     };
@@ -30,23 +32,60 @@ public class RegExParser extends Parser {
     // delegates
     // delegators
 
+    public static final String[] ruleNames = new String[] {
+        "invalidRule", "union", "concat", "closure", "exp"
+    };
+    public static final boolean[] decisionCanBacktrack = new boolean[] {
+        false, // invalid decision
+        false, false, false, false
+    };
 
+     
+        public int ruleLevel = 0;
+        public int getRuleLevel() { return ruleLevel; }
+        public void incRuleLevel() { ruleLevel++; }
+        public void decRuleLevel() { ruleLevel--; }
         public RegExParser(TokenStream input) {
-            this(input, new RecognizerSharedState());
+            this(input, DebugEventSocketProxy.DEFAULT_DEBUGGER_PORT, new RecognizerSharedState());
         }
-        public RegExParser(TokenStream input, RecognizerSharedState state) {
+        public RegExParser(TokenStream input, int port, RecognizerSharedState state) {
             super(input, state);
-             
+            DebugEventSocketProxy proxy =
+                new DebugEventSocketProxy(this,port,adaptor);
+            setDebugListener(proxy);
+            setTokenStream(new DebugTokenStream(input,proxy));
+            try {
+                proxy.handshake();
+            }
+            catch (IOException ioe) {
+                reportError(ioe);
+            }
+            TreeAdaptor adap = new CommonTreeAdaptor();
+            setTreeAdaptor(adap);
+            proxy.setTreeAdaptor(adap);
         }
-        
-    protected TreeAdaptor adaptor = new CommonTreeAdaptor();
+    public RegExParser(TokenStream input, DebugEventListener dbg) {
+        super(input, dbg);
 
+         
+        TreeAdaptor adap = new CommonTreeAdaptor();
+        setTreeAdaptor(adap);
+
+    }
+    protected boolean evalPredicate(boolean result, String predicate) {
+        dbg.semanticPredicate(result, predicate);
+        return result;
+    }
+
+    protected DebugTreeAdaptor adaptor;
     public void setTreeAdaptor(TreeAdaptor adaptor) {
-        this.adaptor = adaptor;
+        this.adaptor = new DebugTreeAdaptor(dbg,adaptor);
+
     }
     public TreeAdaptor getTreeAdaptor() {
         return adaptor;
     }
+
 
     public String[] getTokenNames() { return RegExParser.tokenNames; }
     public String getGrammarFileName() { return "C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g"; }
@@ -71,16 +110,28 @@ public class RegExParser extends Parser {
 
 
 
+        try { dbg.enterRule(getGrammarFileName(), "exp");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(23, 1);
+
         try {
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:24:2: ( ( closure | union )* )
+            dbg.enterAlt(1);
+
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:24:4: ( closure | union )*
             {
             root_0 = (Object)adaptor.nil();
 
+            dbg.location(24,4);
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:24:4: ( closure | union )*
+            try { dbg.enterSubRule(1);
+
             loop1:
             do {
                 int alt1=3;
+                try { dbg.enterDecision(1, decisionCanBacktrack[1]);
+
                 int LA1_0 = input.LA(1);
 
                 if ( (LA1_0==10) ) {
@@ -100,10 +151,15 @@ public class RegExParser extends Parser {
                 }
 
 
+                } finally {dbg.exitDecision(1);}
+
                 switch (alt1) {
             	case 1 :
+            	    dbg.enterAlt(1);
+
             	    // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:24:5: closure
             	    {
+            	    dbg.location(24,5);
             	    pushFollow(FOLLOW_closure_in_exp65);
             	    closure1=closure();
 
@@ -114,8 +170,11 @@ public class RegExParser extends Parser {
             	    }
             	    break;
             	case 2 :
+            	    dbg.enterAlt(2);
+
             	    // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:24:15: union
             	    {
+            	    dbg.location(24,15);
             	    pushFollow(FOLLOW_union_in_exp69);
             	    union2=union();
 
@@ -130,6 +189,7 @@ public class RegExParser extends Parser {
             	    break loop1;
                 }
             } while (true);
+            } finally {dbg.exitSubRule(1);}
 
 
             }
@@ -148,6 +208,15 @@ public class RegExParser extends Parser {
         }
         finally {
         }
+        dbg.location(25, 2);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "exp");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "exp"
@@ -183,9 +252,16 @@ public class RegExParser extends Parser {
         RewriteRuleTokenStream stream_LIT=new RewriteRuleTokenStream(adaptor,"token LIT");
         RewriteRuleTokenStream stream_12=new RewriteRuleTokenStream(adaptor,"token 12");
         RewriteRuleSubtreeStream stream_union=new RewriteRuleSubtreeStream(adaptor,"rule union");
+        try { dbg.enterRule(getGrammarFileName(), "closure");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(27, 1);
+
         try {
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:28:2: ( '(' union ')' '*' -> ^( CLOSURE_EXP union ) | LIT '*' -> ^( CLOSURE_EXP LIT ) )
             int alt2=2;
+            try { dbg.enterDecision(2, decisionCanBacktrack[2]);
+
             int LA2_0 = input.LA(1);
 
             if ( (LA2_0==10) ) {
@@ -198,24 +274,33 @@ public class RegExParser extends Parser {
                 NoViableAltException nvae =
                     new NoViableAltException("", 2, 0, input);
 
+                dbg.recognitionException(nvae);
                 throw nvae;
             }
+            } finally {dbg.exitDecision(2);}
+
             switch (alt2) {
                 case 1 :
+                    dbg.enterAlt(1);
+
                     // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:28:4: '(' union ')' '*'
                     {
+                    dbg.location(28,4);
                     char_literal3=(Token)match(input,10,FOLLOW_10_in_closure84);  
                     stream_10.add(char_literal3);
 
+                    dbg.location(28,8);
                     pushFollow(FOLLOW_union_in_closure86);
                     union4=union();
 
                     state._fsp--;
 
                     stream_union.add(union4.getTree());
+                    dbg.location(28,14);
                     char_literal5=(Token)match(input,11,FOLLOW_11_in_closure88);  
                     stream_11.add(char_literal5);
 
+                    dbg.location(28,18);
                     char_literal6=(Token)match(input,12,FOLLOW_12_in_closure90);  
                     stream_12.add(char_literal6);
 
@@ -234,11 +319,14 @@ public class RegExParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 28:22: -> ^( CLOSURE_EXP union )
                     {
+                        dbg.location(28,25);
                         // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:28:25: ^( CLOSURE_EXP union )
                         {
                         Object root_1 = (Object)adaptor.nil();
+                        dbg.location(28,27);
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(CLOSURE_EXP, "CLOSURE_EXP"), root_1);
 
+                        dbg.location(28,39);
                         adaptor.addChild(root_1, stream_union.nextTree());
 
                         adaptor.addChild(root_0, root_1);
@@ -250,11 +338,15 @@ public class RegExParser extends Parser {
                     }
                     break;
                 case 2 :
+                    dbg.enterAlt(2);
+
                     // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:28:48: LIT '*'
                     {
+                    dbg.location(28,48);
                     LIT7=(Token)match(input,LIT,FOLLOW_LIT_in_closure102);  
                     stream_LIT.add(LIT7);
 
+                    dbg.location(28,52);
                     char_literal8=(Token)match(input,12,FOLLOW_12_in_closure104);  
                     stream_12.add(char_literal8);
 
@@ -273,11 +365,14 @@ public class RegExParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 28:56: -> ^( CLOSURE_EXP LIT )
                     {
+                        dbg.location(28,59);
                         // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:28:59: ^( CLOSURE_EXP LIT )
                         {
                         Object root_1 = (Object)adaptor.nil();
+                        dbg.location(28,61);
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(CLOSURE_EXP, "CLOSURE_EXP"), root_1);
 
+                        dbg.location(28,73);
                         adaptor.addChild(root_1, stream_LIT.nextNode());
 
                         adaptor.addChild(root_0, root_1);
@@ -304,6 +399,15 @@ public class RegExParser extends Parser {
         }
         finally {
         }
+        dbg.location(29, 2);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "closure");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "closure"
@@ -330,20 +434,33 @@ public class RegExParser extends Parser {
         Object char_literal10_tree=null;
         RewriteRuleTokenStream stream_13=new RewriteRuleTokenStream(adaptor,"token 13");
         RewriteRuleSubtreeStream stream_concat=new RewriteRuleSubtreeStream(adaptor,"rule concat");
+        try { dbg.enterRule(getGrammarFileName(), "union");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(32, 1);
+
         try {
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:33:2: ( concat ( '+' concat )* -> ^( UNION_EXP ( concat )* ) )
+            dbg.enterAlt(1);
+
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:33:4: concat ( '+' concat )*
             {
+            dbg.location(33,4);
             pushFollow(FOLLOW_concat_in_union126);
             concat9=concat();
 
             state._fsp--;
 
             stream_concat.add(concat9.getTree());
+            dbg.location(33,11);
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:33:11: ( '+' concat )*
+            try { dbg.enterSubRule(3);
+
             loop3:
             do {
                 int alt3=2;
+                try { dbg.enterDecision(3, decisionCanBacktrack[3]);
+
                 int LA3_0 = input.LA(1);
 
                 if ( (LA3_0==13) ) {
@@ -351,13 +468,19 @@ public class RegExParser extends Parser {
                 }
 
 
+                } finally {dbg.exitDecision(3);}
+
                 switch (alt3) {
             	case 1 :
+            	    dbg.enterAlt(1);
+
             	    // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:33:12: '+' concat
             	    {
+            	    dbg.location(33,12);
             	    char_literal10=(Token)match(input,13,FOLLOW_13_in_union129);  
             	    stream_13.add(char_literal10);
 
+            	    dbg.location(33,16);
             	    pushFollow(FOLLOW_concat_in_union131);
             	    concat11=concat();
 
@@ -372,6 +495,7 @@ public class RegExParser extends Parser {
             	    break loop3;
                 }
             } while (true);
+            } finally {dbg.exitSubRule(3);}
 
 
 
@@ -388,13 +512,17 @@ public class RegExParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 33:25: -> ^( UNION_EXP ( concat )* )
             {
+                dbg.location(33,28);
                 // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:33:28: ^( UNION_EXP ( concat )* )
                 {
                 Object root_1 = (Object)adaptor.nil();
+                dbg.location(33,30);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(UNION_EXP, "UNION_EXP"), root_1);
 
+                dbg.location(33,40);
                 // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:33:40: ( concat )*
                 while ( stream_concat.hasNext() ) {
+                    dbg.location(33,40);
                     adaptor.addChild(root_1, stream_concat.nextTree());
 
                 }
@@ -422,6 +550,15 @@ public class RegExParser extends Parser {
         }
         finally {
         }
+        dbg.location(34, 2);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "union");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "union"
@@ -444,15 +581,27 @@ public class RegExParser extends Parser {
         Object LIT12_tree=null;
         RewriteRuleTokenStream stream_LIT=new RewriteRuleTokenStream(adaptor,"token LIT");
 
+        try { dbg.enterRule(getGrammarFileName(), "concat");
+        if ( getRuleLevel()==0 ) {dbg.commence();}
+        incRuleLevel();
+        dbg.location(36, 1);
+
         try {
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:37:2: ( ( LIT )+ -> ^( CONCAT_EXP ( LIT )+ ) )
+            dbg.enterAlt(1);
+
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:37:4: ( LIT )+
             {
+            dbg.location(37,4);
             // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:37:4: ( LIT )+
             int cnt4=0;
+            try { dbg.enterSubRule(4);
+
             loop4:
             do {
                 int alt4=2;
+                try { dbg.enterDecision(4, decisionCanBacktrack[4]);
+
                 int LA4_0 = input.LA(1);
 
                 if ( (LA4_0==LIT) ) {
@@ -460,10 +609,15 @@ public class RegExParser extends Parser {
                 }
 
 
+                } finally {dbg.exitDecision(4);}
+
                 switch (alt4) {
             	case 1 :
+            	    dbg.enterAlt(1);
+
             	    // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:37:4: LIT
             	    {
+            	    dbg.location(37,4);
             	    LIT12=(Token)match(input,LIT,FOLLOW_LIT_in_concat154);  
             	    stream_LIT.add(LIT12);
 
@@ -475,10 +629,13 @@ public class RegExParser extends Parser {
             	    if ( cnt4 >= 1 ) break loop4;
                         EarlyExitException eee =
                             new EarlyExitException(4, input);
+                        dbg.recognitionException(eee);
+
                         throw eee;
                 }
                 cnt4++;
             } while (true);
+            } finally {dbg.exitSubRule(4);}
 
 
 
@@ -495,15 +652,19 @@ public class RegExParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 37:9: -> ^( CONCAT_EXP ( LIT )+ )
             {
+                dbg.location(37,12);
                 // C:\\SkyDrive\\KSU\\CIS770 - Formal Languages Theory\\workspace\\Assignment2\\src\\parser\\RegEx.g:37:12: ^( CONCAT_EXP ( LIT )+ )
                 {
                 Object root_1 = (Object)adaptor.nil();
+                dbg.location(37,14);
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(CONCAT_EXP, "CONCAT_EXP"), root_1);
 
+                dbg.location(37,25);
                 if ( !(stream_LIT.hasNext()) ) {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_LIT.hasNext() ) {
+                    dbg.location(37,25);
                     adaptor.addChild(root_1, stream_LIT.nextNode());
 
                 }
@@ -531,6 +692,15 @@ public class RegExParser extends Parser {
         }
         finally {
         }
+        dbg.location(38, 2);
+
+        }
+        finally {
+            dbg.exitRule(getGrammarFileName(), "concat");
+            decRuleLevel();
+            if ( getRuleLevel()==0 ) {dbg.terminate();}
+        }
+
         return retval;
     }
     // $ANTLR end "concat"
