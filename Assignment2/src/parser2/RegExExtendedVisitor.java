@@ -24,18 +24,45 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 	}
 
 	@Override
-	public Enfa visitUnion(@NotNull RegExParser.UnionContext ctx) {
-		return visitChildren(ctx);
-	}
-
-	@Override
 	public Enfa visitClosure(@NotNull RegExParser.ClosureContext ctx) {
-		return visitChildren(ctx);
+		Enfa enfa = visit(ctx.children.get(1));
+		for(Node n : enfa.end) {
+			enfa.start.OnE.add(n);
+			n.OnE.add(enfa.start);
+		}
+		return enfa;
+	}
+	
+	@Override
+	public Enfa visitUnion(@NotNull RegExParser.UnionContext ctx) {
+		Enfa enfa = this.visit(ctx.children.get(0));
+		for(int i=1; i<ctx.children.size(); ++i) {
+			if(ctx.children.get(i).getText().compareTo("+") != 0) {
+				Enfa right = this.visit(ctx.children.get(i));
+				enfa = union(enfa, right);
+			}
+		}
+		return enfa;
+	}
+	
+	private Enfa union(Enfa left, Enfa right) {
+		Enfa newEnfa = new Enfa();
+		left.start.OnE.add(right.start);
+		right.start.IsStart = false;
+		for(Node finalLeft : left.end) {
+			for(Node finalRight : right.end) {
+				finalLeft.OnE.add(finalRight);
+				finalLeft.IsFinal = false;				
+			}
+		}
+		newEnfa.start = left.start;
+		newEnfa.end = right.end;
+		return newEnfa;
 	}
 
 	@Override
 	public Enfa visitConcat(@NotNull RegExParser.ConcatContext ctx) {
-		Enfa nfa = new Enfa();
+		Enfa enfa = new Enfa();
 		
 		Node start = new Node();
 		start.IsStart = true;
@@ -43,8 +70,8 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 		Node end = new Node();
 		end.IsFinal = true;
 		
-		nfa.start = start;
-		nfa.end.add(end);
+		enfa.start = start;
+		enfa.end.add(end);
 		
 		Node cur = start;
 		for (int i = 0; i < ctx.getChildCount(); ++i) {
@@ -64,7 +91,7 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 			cur = newNode;
 		}
 		
-		return nfa;
+		return enfa;
 	}	
 	
 }

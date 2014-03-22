@@ -13,7 +13,7 @@ import org.antlr.runtime.tree.CommonTree;
 object Assignment2 {
 
   def main(args: Array[String]): Unit = {    
-    val enfa = getEnfa("01")
+    val enfa = getEnfa("(01+1)*")
     
     println("done")
     
