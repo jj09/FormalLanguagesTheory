@@ -13,15 +13,18 @@ import org.antlr.runtime.tree.CommonTree;
 object Assignment2 {
 
   def main(args: Array[String]): Unit = {    
-    val enfa = getEnfa("(01+1)*")
+    val dfa = getDfa("(01+1)*")
     
+    //val dfa = convertEnfaToDfa(enfa)
+     
     println("done")
     
   } 
   
-  def getEnfa(regEx: String): Enfa = {
-    return RegExCompiler.getEnfa(regEx)    
+  def getDfa(regEx: String): Dfa = {
+    return RegExCompiler.getDfa(regEx)    
   }
+   
   
 
 }
