@@ -1,6 +1,6 @@
 package logic
 
-import parser2._
+import parser._
 
 class RegExpAnalyzer {
   

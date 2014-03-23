@@ -6,14 +6,11 @@ import org.antlr.runtime.RecognitionException
 import org.antlr.runtime.TokenStream
 import org.antlr.runtime.tree.CommonTree;
 
-
-
-
 object Assignment2 {
 
   def main(args: Array[String]): Unit = {
-    val regEx1: String = "(0(0+2)*+1)*+2"
-    var regEx2: String = "(01+12+0+2)*(1)*"
+    val regEx1: String = "(0(0+2)*+1)*+2+12+(00+21)*+0000110102"
+    var regEx2: String = "(0+1+2)*"
     
     val rea = new RegExpAnalyzer
     var result = rea.check(regEx1, regEx2) 
@@ -22,10 +19,5 @@ object Assignment2 {
      
     println("done")
     
-  } 
-  
-  
-  
-  
-
+  }
 }
