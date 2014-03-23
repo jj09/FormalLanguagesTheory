@@ -22,6 +22,28 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 		finalEnfa = visitChildren(ctx);
 		return finalEnfa;
 	}
+	
+//	public Enfa visitExp(@NotNull RegExParser.ExpContext ctx) {
+//		Enfa enfa = this.visit(ctx.children.get(0));
+//		for(int i=1; i<ctx.children.size(); ++i) {
+//			if(ctx.children.get(i).getText().compareTo("(") != 0
+//					&& ctx.children.get(i).getText().compareTo(")") != 0
+//					&& ctx.children.get(i).getText().compareTo("*") != 0) {
+//			Enfa right = this.visit(ctx.children.get(i));
+//			enfa = concat(enfa, right);
+//			}
+//		}
+//		return enfa;
+//	}
+//	
+//	private Enfa concat(Enfa left, Enfa right) {
+//		for(Node n: left.end) {
+//			n.IsFinal = false;
+//			n.OnE.add(right.start);
+//		}
+//		left.end = right.end;
+//		return left;		
+//	}
 
 	@Override
 	public Enfa visitClosure(@NotNull RegExParser.ClosureContext ctx) {
@@ -59,9 +81,36 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 		newEnfa.end = right.end;
 		return newEnfa;
 	}
-
+	
+	//@Override
+//	public Enfa visitConcat(@NotNull RegExParser.ConcatContext ctx) {
+//		return visitChildren(ctx);
+//	}
 	@Override
 	public Enfa visitConcat(@NotNull RegExParser.ConcatContext ctx) {
+		Enfa enfa = this.visit(ctx.children.get(0));
+		for (int i = 1; i < ctx.children.size(); ++i) {
+			if (ctx.children.get(i).getText().compareTo("(") != 0
+					&& ctx.children.get(i).getText().compareTo(")") != 0
+					&& ctx.children.get(i).getText().compareTo("*") != 0) {
+				Enfa right = this.visit(ctx.children.get(i));
+				enfa = concat(enfa, right);
+			}
+		}
+		return enfa;
+	}
+
+	private Enfa concat(Enfa left, Enfa right) {
+		for (Node n : left.end) {
+			n.IsFinal = false;
+			n.OnE.add(right.start);
+		}
+		left.end = right.end;
+		return left;
+	}
+
+	@Override
+	public Enfa visitStr(@NotNull RegExParser.StrContext ctx) {
 		Enfa enfa = new Enfa();
 		
 		Node start = new Node();

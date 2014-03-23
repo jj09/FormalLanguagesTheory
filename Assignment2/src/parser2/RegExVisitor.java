@@ -19,6 +19,13 @@ public interface RegExVisitor<T> extends ParseTreeVisitor<T> {
 	T visitExp(@NotNull RegExParser.ExpContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link RegExParser#str}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStr(@NotNull RegExParser.StrContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link RegExParser#union}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

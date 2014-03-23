@@ -18,7 +18,7 @@ tokens
 
 
 exp
-	:	(closure | union)*
+	:	(closure | union | concat)
 	;
 
 closure  
@@ -31,8 +31,13 @@ union
 	;
 
 concat
-	:	LIT+ //-> ^(CONCAT_EXP LIT+) // ('*' | LIT*)
+	:	(str | closure)+
 	;
+
+str
+        :       LIT+
+        ;
+        
 
 LIT	
 	:	'0' | '1' | '2'
