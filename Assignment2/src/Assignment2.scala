@@ -9,7 +9,12 @@ object Assignment2 {
 
   def main(args: Array[String]): Unit = {
     val regEx1: String = "(0(0+2)*+1)*+2+12+(00+21)*+0000110102"
-    var regEx2: String = "(0+1+02)*"
+    val regEx2: String = "(0+1+02)*"
+    
+//    print("E1: ")
+//    val regEx1 = readLine()
+//    print("E2: ")
+//    val regEx2 = readLine()
     
     val rea = new RegExpAnalyzer
     var result = rea.check(regEx1, regEx2) 
