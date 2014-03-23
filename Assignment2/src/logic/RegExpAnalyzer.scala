@@ -1,13 +1,23 @@
 package logic
 
+import parser2._
+
 class RegExpAnalyzer {
   
-  def compare(e1 : String, e2 : String): Boolean = {
-    if (e1 == e2) {
-      true
-    } else {
-      false
+  def check(regEx1: String, regEx2: String): String = {
+    if(regEx1.isEmpty()) {
+      throw new IllegalArgumentException("RegEx 1 cannot be empty!");
     }
+    if(regEx2.isEmpty()) {
+      throw new IllegalArgumentException("RegEx 2 cannot be empty!");
+    }
+    var dfa1 = getDfa(regEx1)
+    var dfa2 = getDfa(regEx2)
+    return RegExCompiler.getUnion(dfa1, dfa2)
+  }
+  
+  def getDfa(regEx: String): Dfa = {
+    return RegExCompiler.getDfa(regEx)    
   }
 
 }

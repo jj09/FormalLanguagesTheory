@@ -3,22 +3,28 @@ package test.logic
 import logic.RegExpAnalyzer
 import org.junit.Assert._
 import org.junit.Test
+import org.junit._
 
 class TestRegExpAnalyzer {
   
-  @Test def equalExp {
+  @Test def e1ContainedInE2 {
     val rea = new RegExpAnalyzer
-    assertTrue(rea.compare("(0+1)*", "(0+1)*"))
+    assertEquals("true", rea.check("(0+1)*", "(0+1)*"))
   }
   
-  @Test def notEqualExp {
+  @Test def e1NotContainedInE2 {
     val rea = new RegExpAnalyzer
-    assertFalse(rea.compare("(0+1)*", "(0+1+2)*"))
+    assertNotEquals("true", rea.check("(0+1+2)*", "(0+1)*"))
   }
   
-  @Test def emptyExp {
+  @Test  def emptyExp {
     val rea = new RegExpAnalyzer
-    assertTrue(rea.compare("", ""))
+    try {
+      rea.check("", "")   
+      fail()
+    } catch {
+      case e: IllegalArgumentException => //Ecpected
+    }
   }
 
 }

@@ -32,6 +32,7 @@ public class RegExCompiler {
 
 	}
 	
+	@Deprecated
 	public static String getResult(DfaUnion dfa) {
 		boolean isSubset = true;
 		for(DfaUnionNode node : dfa.nodes) {
@@ -51,6 +52,7 @@ public class RegExCompiler {
 		return "I am suck! I couln't find rejected String";
 	}
 	
+	@Deprecated
 	private static void getRejectedString(DfaUnionNode node, String result) throws Exception {
 		if(node.node1.IsFinal != node.node2.IsFinal) {
 			throw new Exception(result);
@@ -59,7 +61,6 @@ public class RegExCompiler {
 		getRejectedString(node.On1, result + "1");
 		getRejectedString(node.On2, result + "2");		
 	}
-	
 	
 	
 	public static String getUnion(Dfa dfa1, Dfa dfa2) {
@@ -135,6 +136,7 @@ public class RegExCompiler {
 		}
 	}
 	
+	@Deprecated
 	public static Dfa getNotDfa(Dfa dfa) {
 	
 		Dfa notDfa = new Dfa();
