@@ -14,12 +14,12 @@ object Assignment2 {
 
   def main(args: Array[String]): Unit = {    
     val dfa1 = getDfa("(01+1)*")
-    var dfa2 = getDfa("(01+1)*")
-    dfa2 = getNotDfa(dfa2)
+    var dfa2 = getDfa("(01+1+0)*")
+    //dfa2 = getNotDfa(dfa2)
     
-    var union = getUnion(dfa1, dfa2)
+    val result = getUnion(dfa1, dfa2)
     
-    println(getResult(union))    
+    println(result)    
     
     //val dfa = convertEnfaToDfa(enfa)
      
@@ -35,12 +35,8 @@ object Assignment2 {
     return RegExCompiler.getNotDfa(dfa);
   }
   
-  def getUnion(dfa1: Dfa, dfa2: Dfa): DfaUnion = {
+  def getUnion(dfa1: Dfa, dfa2: Dfa): String = {
     return RegExCompiler.getUnion(dfa1, dfa2);
-  }
-  
-  def getResult(unionDfa: DfaUnion): String = {
-    return RegExCompiler.getResult(unionDfa);
   }
 
 }

@@ -62,47 +62,74 @@ public class RegExCompiler {
 	
 	
 	
-	public static DfaUnion getUnion(Dfa dfa1, Dfa dfa2) {
+	public static String getUnion(Dfa dfa1, Dfa dfa2) {
 		DfaUnion dfa = new DfaUnion();
 		DfaUnionNode start = new DfaUnionNode();
 		start.node1 = dfa1.start;
 		start.node2 = dfa2.start;
 		dfa.nodes.add(start);
-		getUnionTransition(start, dfa);
+		String result = "";
+		try {
+			getUnionTransition(start, dfa, result);
+		} catch(Exception e) {
+			return e.getMessage();
+		}
 		
-		return dfa;
+		return "true";
 	}
 	
-	private static void getUnionTransition(DfaUnionNode unionNode, DfaUnion dfa) {
+	private static void getUnionTransition(DfaUnionNode unionNode, DfaUnion dfa, String result) throws Exception {
+		if (unionNode.node1.IsFinal && !unionNode.node2.IsFinal) {
+			throw new Exception(result);
+		}
+		
 		//on 0
-		if(dfa.getNode(unionNode.node1.On0, unionNode.node2.On0) == null) {
+		if (unionNode.node1.On0 == null && unionNode.node2.On0==null) {
+			// dead state
+		} else if (unionNode.node1.On0 == null) {
+			// dead state? String can be accepted by E2 (when is not accpeted by E1)?
+		} else if (unionNode.node2.On0 == null) {
+			throw new Exception(result + "0");
+		} else if(dfa.getNode(unionNode.node1.On0, unionNode.node2.On0) == null) {
 			unionNode.On0 = new DfaUnionNode();
 			unionNode.On0.node1 = unionNode.node1.On0;
 			unionNode.On0.node2 = unionNode.node2.On0;
 			dfa.nodes.add(unionNode.On0);
-			getUnionTransition(unionNode.On0, dfa);
+			getUnionTransition(unionNode.On0, dfa, result + "0");
 		} else {
 			unionNode.On0 = dfa.getNode(unionNode.node1.On0, unionNode.node2.On0);
 		}
 		
 		//on 1
-		if(dfa.getNode(unionNode.node1.On1, unionNode.node2.On1) == null) {
+		if (unionNode.node1.On1 == null && unionNode.node2.On1==null) {
+			// dead state
+		} else if (unionNode.node1.On1 == null) {
+			// dead state? String can be accepted by E2 (when is not accpeted by E1)?
+		} else if (unionNode.node2.On1 == null) {
+			throw new Exception(result + "1");
+		} else if(dfa.getNode(unionNode.node1.On1, unionNode.node2.On1) == null) {
 			unionNode.On1 = new DfaUnionNode();
 			unionNode.On1.node1 = unionNode.node1.On1;
 			unionNode.On1.node2 = unionNode.node2.On1;
 			dfa.nodes.add(unionNode.On1);
-			getUnionTransition(unionNode.On1, dfa);
+			getUnionTransition(unionNode.On1, dfa, result + "1");
 		} else {
 			unionNode.On1 = dfa.getNode(unionNode.node1.On1, unionNode.node2.On1);
 		}
 				
 		//on 2
-		if(dfa.getNode(unionNode.node1.On2, unionNode.node2.On2) == null) {
+		if (unionNode.node1.On2 == null && unionNode.node2.On2==null) {
+			// dead state
+		} else if (unionNode.node1.On2 == null) {
+			// dead state? String can be accepted by E2 (when is not accpeted by E1)?
+		} else if (unionNode.node2.On2 == null) {
+			throw new Exception(result + "2");
+		} else if(dfa.getNode(unionNode.node1.On2, unionNode.node2.On2) == null) {
 			unionNode.On2 = new DfaUnionNode();
 			unionNode.On2.node1 = unionNode.node1.On2;
 			unionNode.On2.node2 = unionNode.node2.On2;
 			dfa.nodes.add(unionNode.On2);
-			getUnionTransition(unionNode.On2, dfa);
+			getUnionTransition(unionNode.On2, dfa, result + "2");
 		} else {
 			unionNode.On2 = dfa.getNode(unionNode.node1.On2, unionNode.node2.On2);
 		}
@@ -162,6 +189,7 @@ public class RegExCompiler {
 			}			
 			
 			for(Node n2 : n.On2) {
+				if(node.On2==null) node.On2 = new DfaNode();
 				node.On2.nodes.add(n2);
 				discoverEtransitions(n2, node.On2);
 			}			
