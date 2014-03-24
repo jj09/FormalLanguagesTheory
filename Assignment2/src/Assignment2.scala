@@ -17,7 +17,7 @@ object Assignment2 {
 //    val regEx2 = readLine()
     
     val rea = new RegExpAnalyzer
-    var result = rea.check(regEx1, regEx2) 
+    val result = rea.check(regEx1, regEx2) 
     
     println(result)    
   }

@@ -19,7 +19,7 @@ class RegExpAnalyzer {
     var dfa1 = convertEnfaToDfa(enfa1)
     var dfa2 = convertEnfaToDfa(enfa2)
 
-    return getDfasUnion(dfa1, dfa2)
+    return getDfasIntersection(dfa1, dfa2)
   }
 
   def getEnfa(regEx: String): Enfa = {
@@ -144,9 +144,9 @@ class RegExpAnalyzer {
     return false;
   }
 
-  def getDfasUnion(dfa1: Dfa, dfa2: Dfa): String = {
-    var dfa = new DfaUnion
-    var start = new DfaUnionNode
+  def getDfasIntersection(dfa1: Dfa, dfa2: Dfa): String = {
+    var dfa = new DfaIntersection
+    var start = new DfaIntersectionNode
     start.node1 = dfa1.start
     start.node2 = dfa2.start
     dfa.nodes += start
@@ -159,7 +159,7 @@ class RegExpAnalyzer {
     return "true";
   }
 
-  def getUnionTransition(unionNode: DfaUnionNode, dfa: DfaUnion, result: String) {
+  def getUnionTransition(unionNode: DfaIntersectionNode, dfa: DfaIntersection, result: String) {
     if (unionNode.node1.IsFinal && !unionNode.node2.IsFinal) {
       throw new Exception(result);
     }
@@ -170,7 +170,7 @@ class RegExpAnalyzer {
     } else if (unionNode.node2.On0 == null) {
       throw new Exception(result + "0")
     } else if (dfa.getNode(unionNode.node1.On0, unionNode.node2.On0) == null) {
-      unionNode.On0 = new DfaUnionNode
+      unionNode.On0 = new DfaIntersectionNode
       unionNode.On0.node1 = unionNode.node1.On0
       unionNode.On0.node2 = unionNode.node2.On0
       dfa.nodes += unionNode.On0
@@ -185,7 +185,7 @@ class RegExpAnalyzer {
     } else if (unionNode.node2.On1 == null) {
       throw new Exception(result + "1")
     } else if (dfa.getNode(unionNode.node1.On1, unionNode.node2.On1) == null) {
-      unionNode.On1 = new DfaUnionNode()
+      unionNode.On1 = new DfaIntersectionNode()
       unionNode.On1.node1 = unionNode.node1.On1
       unionNode.On1.node2 = unionNode.node2.On1
       dfa.nodes += unionNode.On1
@@ -200,7 +200,7 @@ class RegExpAnalyzer {
     } else if (unionNode.node2.On2 == null) {
       throw new Exception(result + "2")
     } else if (dfa.getNode(unionNode.node1.On2, unionNode.node2.On2) == null) {
-      unionNode.On2 = new DfaUnionNode
+      unionNode.On2 = new DfaIntersectionNode
       unionNode.On2.node1 = unionNode.node1.On2
       unionNode.On2.node2 = unionNode.node2.On2
       dfa.nodes += unionNode.On2
