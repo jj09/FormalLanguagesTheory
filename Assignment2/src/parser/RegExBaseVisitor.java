@@ -1,4 +1,4 @@
-// Generated from C:\SkyDrive\KSU\CIS770 - Formal Languages Theory\workspace\Assignment2\src\parser2\RegEx.g4 by ANTLR 4.1
+// Generated from RegEx.g4 by ANTLR 4.2
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -14,41 +14,41 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 public class RegExBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements RegExVisitor<T> {
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitExp(@NotNull RegExParser.ExpContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStr(@NotNull RegExParser.StrContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitUnion(@NotNull RegExParser.UnionContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClosure(@NotNull RegExParser.ClosureContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConcat(@NotNull RegExParser.ConcatContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConcat(@NotNull RegExParser.ConcatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExp(@NotNull RegExParser.ExpContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitClosure(@NotNull RegExParser.ClosureContext ctx) { return visitChildren(ctx); }
 }

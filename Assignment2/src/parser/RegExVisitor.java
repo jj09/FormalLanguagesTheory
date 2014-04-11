@@ -1,4 +1,4 @@
-// Generated from C:\SkyDrive\KSU\CIS770 - Formal Languages Theory\workspace\Assignment2\src\parser2\RegEx.g4 by ANTLR 4.1
+// Generated from RegEx.g4 by ANTLR 4.2
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -11,13 +11,6 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * operations with no return type.
  */
 public interface RegExVisitor<T> extends ParseTreeVisitor<T> {
-	/**
-	 * Visit a parse tree produced by {@link RegExParser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExp(@NotNull RegExParser.ExpContext ctx);
-
 	/**
 	 * Visit a parse tree produced by {@link RegExParser#str}.
 	 * @param ctx the parse tree
@@ -33,16 +26,23 @@ public interface RegExVisitor<T> extends ParseTreeVisitor<T> {
 	T visitUnion(@NotNull RegExParser.UnionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link RegExParser#closure}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitClosure(@NotNull RegExParser.ClosureContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link RegExParser#concat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConcat(@NotNull RegExParser.ConcatContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link RegExParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExp(@NotNull RegExParser.ExpContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link RegExParser#closure}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClosure(@NotNull RegExParser.ClosureContext ctx);
 }

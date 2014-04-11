@@ -1,6 +1,6 @@
 package logic
 import scala.collection.mutable.HashSet
-import parser.Node
+import parser._
 
 class DfaNode {
   var nodes = new HashSet[Node];

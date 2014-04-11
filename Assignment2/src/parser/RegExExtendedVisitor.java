@@ -57,9 +57,12 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 	
 	@Override
 	public Enfa visitUnion(@NotNull RegExParser.UnionContext ctx) {
-		Enfa enfa = this.visit(ctx.children.get(0));
+		int startInd = ctx.children.get(0).getText().compareTo("(")!=0 ? 0 : 1;
+		Enfa enfa = this.visit(ctx.children.get(startInd));
 		for(int i=1; i<ctx.children.size(); ++i) {
-			if(ctx.children.get(i).getText().compareTo("+") != 0) {
+			if(ctx.children.get(i).getText().compareTo("+") != 0
+					&& ctx.children.get(i).getText().compareTo("(") != 0
+					&& ctx.children.get(i).getText().compareTo(")") != 0) {
 				Enfa right = this.visit(ctx.children.get(i));
 				enfa = union(enfa, right);
 			}
@@ -124,18 +127,24 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 		
 		Node cur = start;
 		for (int i = 0; i < ctx.getChildCount(); ++i) {
-			int value = Integer.parseInt(ctx.getChild(i).getText());
-			Node newNode = i==(ctx.getChildCount()-1) ? end : new Node();
-			switch (value) {
-			case 0:
-				cur.On0.add(newNode);
-				break;
-			case 1:
-				cur.On1.add(newNode);
-				break;
-			case 2:
-				cur.On2.add(newNode);
-				break;
+			Node newNode = i == (ctx.getChildCount() - 1) ? end : new Node();
+			String lit = ctx.getChild(i).getText();
+			if (lit.equalsIgnoreCase("E")) {
+				cur.OnE.add(newNode);
+			} else {
+				int value = Integer.parseInt(lit);
+
+				switch (value) {
+				case 0:
+					cur.On0.add(newNode);
+					break;
+				case 1:
+					cur.On1.add(newNode);
+					break;
+				case 2:
+					cur.On2.add(newNode);
+					break;
+				}
 			}
 			cur = newNode;
 		}

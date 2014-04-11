@@ -21,11 +21,11 @@ closure
 
 
 union 	
-	:	concat ('+' concat)* //-> ^(UNION_EXP concat*) 
+	:	'('? concat ('+' concat)* ')'? //-> ^(UNION_EXP concat*) 
 	;
 
 concat
-	:	(str | closure)+
+	:	 (str | closure)+ 
 	;
 
 str
@@ -34,7 +34,7 @@ str
         
 
 LIT	
-	:	'0' | '1' | '2'
+	:	'0' | '1' | '2' | 'E'
 	;
 
 // Whitespace -- ignored

@@ -1,4 +1,4 @@
-// Generated from C:\SkyDrive\KSU\CIS770 - Formal Languages Theory\workspace\Assignment2\src\parser2\RegEx.g4 by ANTLR 4.1
+// Generated from RegEx.g4 by ANTLR 4.2
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -18,7 +18,7 @@ public class RegExParser extends Parser {
 		T__3=1, T__2=2, T__1=3, T__0=4, LIT=5, WS=6, CLOSURE_EXP=7, UNION_EXP=8, 
 		CONCAT_EXP=9, LIST=10;
 	public static final String[] tokenNames = {
-		"<INVALID>", "')'", "'+'", "'*'", "'('", "LIT", "WS", "CLOSURE_EXP", "UNION_EXP", 
+		"<INVALID>", "'('", "')'", "'*'", "'+'", "LIT", "WS", "CLOSURE_EXP", "UNION_EXP", 
 		"CONCAT_EXP", "LIST"
 	};
 	public static final int
@@ -37,6 +37,9 @@ public class RegExParser extends Parser {
 	public String[] getRuleNames() { return ruleNames; }
 
 	@Override
+	public String getSerializedATN() { return _serializedATN; }
+
+	@Override
 	public ATN getATN() { return _ATN; }
 
 	public RegExParser(TokenStream input) {
@@ -44,11 +47,11 @@ public class RegExParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class ExpContext extends ParserRuleContext {
-		public ConcatContext concat() {
-			return getRuleContext(ConcatContext.class,0);
-		}
 		public ClosureContext closure() {
 			return getRuleContext(ClosureContext.class,0);
+		}
+		public ConcatContext concat() {
+			return getRuleContext(ConcatContext.class,0);
 		}
 		public UnionContext union() {
 			return getRuleContext(UnionContext.class,0);
@@ -124,9 +127,9 @@ public class RegExParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(15); match(4);
+			setState(15); match(1);
 			setState(16); union();
-			setState(17); match(1);
+			setState(17); match(2);
 			setState(18); match(3);
 			}
 		}
@@ -166,20 +169,36 @@ public class RegExParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20); concat();
-			setState(25);
+			setState(21);
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			case 1:
+				{
+				setState(20); match(1);
+				}
+				break;
+			}
+			setState(23); concat();
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==2) {
+			while (_la==4) {
 				{
 				{
-				setState(21); match(2);
-				setState(22); concat();
+				setState(24); match(4);
+				setState(25); concat();
 				}
 				}
-				setState(27);
+				setState(30);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
+			}
+			setState(32);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
+				{
+				setState(31); match(2);
+				}
+				break;
 			}
 			}
 		}
@@ -195,9 +214,6 @@ public class RegExParser extends Parser {
 	}
 
 	public static class ConcatContext extends ParserRuleContext {
-		public StrContext str(int i) {
-			return getRuleContext(StrContext.class,i);
-		}
 		public List<ClosureContext> closure() {
 			return getRuleContexts(ClosureContext.class);
 		}
@@ -206,6 +222,9 @@ public class RegExParser extends Parser {
 		}
 		public ClosureContext closure(int i) {
 			return getRuleContext(ClosureContext.class,i);
+		}
+		public StrContext str(int i) {
+			return getRuleContext(StrContext.class,i);
 		}
 		public ConcatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -225,31 +244,31 @@ public class RegExParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30); 
+			setState(36); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(30);
+				setState(36);
 				switch (_input.LA(1)) {
 				case LIT:
 					{
-					setState(28); str();
+					setState(34); str();
 					}
 					break;
-				case 4:
+				case 1:
 					{
-					setState(29); closure();
+					setState(35); closure();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(32); 
+				setState(38); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==4 || _la==LIT );
+			} while ( _la==1 || _la==LIT );
 			}
 		}
 		catch (RecognitionException re) {
@@ -264,10 +283,10 @@ public class RegExParser extends Parser {
 	}
 
 	public static class StrContext extends ParserRuleContext {
-		public List<TerminalNode> LIT() { return getTokens(RegExParser.LIT); }
 		public TerminalNode LIT(int i) {
 			return getToken(RegExParser.LIT, i);
 		}
+		public List<TerminalNode> LIT() { return getTokens(RegExParser.LIT); }
 		public StrContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -286,24 +305,24 @@ public class RegExParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35); 
+			setState(41); 
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			do {
 				switch (_alt) {
 				case 1:
 					{
 					{
-					setState(34); match(LIT);
+					setState(40); match(LIT);
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(37); 
+				setState(43); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			} while ( _alt!=2 && _alt!=-1 );
 			}
 		}
@@ -319,20 +338,21 @@ public class RegExParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\f*\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\2\5\2\20\n\2\3\3\3\3\3\3\3\3\3\3"+
-		"\3\4\3\4\3\4\7\4\32\n\4\f\4\16\4\35\13\4\3\5\3\5\6\5!\n\5\r\5\16\5\"\3"+
-		"\6\6\6&\n\6\r\6\16\6\'\3\6\2\7\2\4\6\b\n\2\2*\2\17\3\2\2\2\4\21\3\2\2"+
-		"\2\6\26\3\2\2\2\b \3\2\2\2\n%\3\2\2\2\f\20\5\4\3\2\r\20\5\6\4\2\16\20"+
-		"\5\b\5\2\17\f\3\2\2\2\17\r\3\2\2\2\17\16\3\2\2\2\20\3\3\2\2\2\21\22\7"+
-		"\6\2\2\22\23\5\6\4\2\23\24\7\3\2\2\24\25\7\5\2\2\25\5\3\2\2\2\26\33\5"+
-		"\b\5\2\27\30\7\4\2\2\30\32\5\b\5\2\31\27\3\2\2\2\32\35\3\2\2\2\33\31\3"+
-		"\2\2\2\33\34\3\2\2\2\34\7\3\2\2\2\35\33\3\2\2\2\36!\5\n\6\2\37!\5\4\3"+
-		"\2 \36\3\2\2\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#\t\3\2\2\2"+
-		"$&\7\7\2\2%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(\13\3\2\2\2\7\17"+
-		"\33 \"\'";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\f\60\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\2\5\2\20\n\2\3\3\3\3\3\3\3\3\3"+
+		"\3\3\4\5\4\30\n\4\3\4\3\4\3\4\7\4\35\n\4\f\4\16\4 \13\4\3\4\5\4#\n\4\3"+
+		"\5\3\5\6\5\'\n\5\r\5\16\5(\3\6\6\6,\n\6\r\6\16\6-\3\6\2\2\7\2\4\6\b\n"+
+		"\2\2\62\2\17\3\2\2\2\4\21\3\2\2\2\6\27\3\2\2\2\b&\3\2\2\2\n+\3\2\2\2\f"+
+		"\20\5\4\3\2\r\20\5\6\4\2\16\20\5\b\5\2\17\f\3\2\2\2\17\r\3\2\2\2\17\16"+
+		"\3\2\2\2\20\3\3\2\2\2\21\22\7\3\2\2\22\23\5\6\4\2\23\24\7\4\2\2\24\25"+
+		"\7\5\2\2\25\5\3\2\2\2\26\30\7\3\2\2\27\26\3\2\2\2\27\30\3\2\2\2\30\31"+
+		"\3\2\2\2\31\36\5\b\5\2\32\33\7\6\2\2\33\35\5\b\5\2\34\32\3\2\2\2\35 \3"+
+		"\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2!#\7\4\2\2"+
+		"\"!\3\2\2\2\"#\3\2\2\2#\7\3\2\2\2$\'\5\n\6\2%\'\5\4\3\2&$\3\2\2\2&%\3"+
+		"\2\2\2\'(\3\2\2\2(&\3\2\2\2()\3\2\2\2)\t\3\2\2\2*,\7\7\2\2+*\3\2\2\2,"+
+		"-\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\13\3\2\2\2\t\17\27\36\"&(-";
 	public static final ATN _ATN =
-		ATNSimulator.deserialize(_serializedATN.toCharArray());
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
 		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
 		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {

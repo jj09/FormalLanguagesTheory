@@ -8,8 +8,11 @@ import org.antlr.runtime.tree.CommonTree;
 object Assignment2 {
 
   def main(args: Array[String]): Unit = {
-    val regEx1: String = "(0(0+2)*+1)*+2+12+(00+21)*+0000110102"
-    val regEx2: String = "(0+1+02)*"
+    //val regEx1: String = "(0(0+2)*+1)*+2+12+(00+21)*+0000110102"
+    //val regEx2: String = "(0+1+02)*"
+    
+    val regEx1: String = "(1+E)((0)*+ 01)*+((0)*+01)*"
+    val regEx2: String = "(0+01)*"
     
 //    print("E1: ")
 //    val regEx1 = readLine()
