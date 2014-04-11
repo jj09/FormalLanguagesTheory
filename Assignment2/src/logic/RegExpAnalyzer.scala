@@ -154,7 +154,7 @@ class RegExpAnalyzer {
     try {
       getUnionTransition(start, dfa, result)
     } catch {
-      case e: Exception => return e.getMessage
+      case e: Exception => return if (e.getMessage.length() > 0) e.getMessage else "E"
     }
     return "true";
   }

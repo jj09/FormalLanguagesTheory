@@ -16,16 +16,16 @@ exp
 	;
 
 closure  
-	:	'(' union ')' '*' //-> ^(CLOSURE_EXP union) | LIT '*' -> ^(CLOSURE_EXP LIT)
+	:	union '*' //-> ^(CLOSURE_EXP union) | LIT '*' -> ^(CLOSURE_EXP LIT)
 	;
 
 
 union 	
-	:	'('? concat ('+' concat)* ')'? //-> ^(UNION_EXP concat*) 
+	:	'(' concat ('+' concat)* ')' //-> ^(UNION_EXP concat*) 
 	;
 
 concat
-	:	 (str | closure)+ 
+	:	 (str | closure | union)+ 
 	;
 
 str
@@ -34,7 +34,7 @@ str
         
 
 LIT	
-	:	'0' | '1' | '2' | 'E'
+	:	'0' | '1' | '2' | 'E' | 'e'
 	;
 
 // Whitespace -- ignored

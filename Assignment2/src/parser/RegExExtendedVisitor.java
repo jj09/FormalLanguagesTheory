@@ -47,7 +47,7 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 
 	@Override
 	public Enfa visitClosure(@NotNull RegExParser.ClosureContext ctx) {
-		Enfa enfa = visit(ctx.children.get(1));
+		Enfa enfa = visit(ctx.children.get(0));
 		for(Node n : enfa.end) {
 			enfa.start.OnE.add(n);
 			n.OnE.add(enfa.start);
@@ -60,9 +60,8 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 		int startInd = ctx.children.get(0).getText().compareTo("(")!=0 ? 0 : 1;
 		Enfa enfa = this.visit(ctx.children.get(startInd));
 		for(int i=1; i<ctx.children.size(); ++i) {
-			if(ctx.children.get(i).getText().compareTo("+") != 0
-					&& ctx.children.get(i).getText().compareTo("(") != 0
-					&& ctx.children.get(i).getText().compareTo(")") != 0) {
+			String skip = "+()";	// tokens to ignore
+			if(!skip.contains(ctx.children.get(i).getText())) {
 				Enfa right = this.visit(ctx.children.get(i));
 				enfa = union(enfa, right);
 			}
@@ -85,17 +84,12 @@ public class RegExExtendedVisitor extends RegExBaseVisitor<Enfa> {
 		return newEnfa;
 	}
 	
-	//@Override
-//	public Enfa visitConcat(@NotNull RegExParser.ConcatContext ctx) {
-//		return visitChildren(ctx);
-//	}
 	@Override
 	public Enfa visitConcat(@NotNull RegExParser.ConcatContext ctx) {
 		Enfa enfa = this.visit(ctx.children.get(0));
 		for (int i = 1; i < ctx.children.size(); ++i) {
-			if (ctx.children.get(i).getText().compareTo("(") != 0
-					&& ctx.children.get(i).getText().compareTo(")") != 0
-					&& ctx.children.get(i).getText().compareTo("*") != 0) {
+			String skip = "+()";	// tokens to ignore
+			if (!skip.contains(ctx.children.get(i).getText())) {
 				Enfa right = this.visit(ctx.children.get(i));
 				enfa = concat(enfa, right);
 			}
